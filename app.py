@@ -5,17 +5,13 @@ import os
 import pandas as pd
 from dotenv import load_dotenv
 
-# Load environment variables
 load_dotenv()
 API_KEY = os.getenv("GEMINI_API_KEY")
 
-# Initialize Gemini client
 client = genai.Client(api_key=API_KEY)
 
 app = FastAPI()
 
-# Store conversations per session (in-memory for now)
-# For multiple users, replace with a proper database keyed by session_id
 conversation_memory = {}
 
 class QueryRequest(BaseModel):
