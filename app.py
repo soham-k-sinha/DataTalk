@@ -5,23 +5,24 @@ from google import genai
 
 app = FastAPI()
 
-
 @app.get("/")
 def root():
     return {}
 
-
 @app.post("/call_api/")
-async def api_call(prompt: str):
-    load_dotenv()
+async def api_call(prompt: str = "prompt"):
+    if (len(prompt) <= 1000):
+        load_dotenv()
 
-    API_KEY = os.getenv("GEMINI_API_KEY")
+        API_KEY = os.getenv("GEMINI_API_KEY")
 
-    client = genai.Client(api_key=API_KEY)
+        client = genai.Client(api_key=API_KEY)
 
-    response = client.models.generate_content(
-        model="gemini-2.5-flash-lite",
-        contents=f"{prompt}",
-    )
+        response = client.models.generate_content(
+            model="gemini-2.5-flash-lite",
+            contents=f"{prompt}",
+        )
 
-    return {"output": f"{response.text}"}
+        return {"output": f"{response.text}"}
+    else:
+        raise ValueError
